@@ -1,6 +1,11 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-const url = String(import.meta.env.VITE_SUPABASE_URL ?? '').trim();
+// Tolerate the two common paste mistakes: a trailing slash, or the REST endpoint URL
+// (https://xxxx.supabase.co/rest/v1/) instead of the plain project URL.
+const url = String(import.meta.env.VITE_SUPABASE_URL ?? '')
+  .trim()
+  .replace(/\/+$/, '')
+  .replace(/\/rest\/v1$/, '');
 const anonKey = String(import.meta.env.VITE_SUPABASE_ANON_KEY ?? '').trim();
 
 /**
